@@ -1,5 +1,5 @@
 {
-  "id": "dingtalk",
+  "id": "extension-dingtalk",
   "channels": [
     "dingtalk"
   ],

@@ -78,42 +78,6 @@ openclaw agent --message "Ship checklist" --thinking high
 
 需要升级？请查看 [更新指南](https://docs.openclaw.ai/install/updating) (并运行 `openclaw doctor` 检查健康状态)。
 
-## 🐳 Docker 部署 (生产环境)
-
-如果您偏好使用 Docker 进行部署，可以使用我们提供的部署配置文件。
-此配置会将数据持久化保存到宿主机的 `/root/openclaw/data` 目录下。
-
-### 前置要求
-
-- Docker
-- Docker Compose
-
-### 部署步骤
-
-1. 克隆仓库：
-   ```bash
-   git clone https://github.com/openclaw/openclaw.git
-   cd openclaw
-   ```
-
-2. 使用部署配置启动服务：
-   ```bash
-   docker compose -f docker-compose.deploy.yml up -d --build
-   ```
-
-3. 查看日志：
-   ```bash
-   docker compose -f docker-compose.deploy.yml logs -f
-   ```
-
-服务启动后，Gateway 将监听 `18789` 端口。
-所有配置、会话和工作区数据都将保存在宿主机的 `/root/openclaw/data` 目录下。
-
-### 配置说明
-
-默认配置使用 `root` 用户运行容器，以确保能直接读写宿主机的 `/root` 目录。
-如果您希望使用非 root 用户运行，请编辑 `docker-compose.deploy.yml` 删除 `user: root` 行，并确保宿主机目录 `/root/openclaw/data` 的所有者为 uid 1000 (`chown -R 1000:1000 /root/openclaw/data`)。
-
 ## 模型 (选择与认证)
 
 - 模型配置与 CLI: [Models](https://docs.openclaw.ai/concepts/models)

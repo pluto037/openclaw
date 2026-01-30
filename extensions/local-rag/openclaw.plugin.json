@@ -1,5 +1,5 @@
 {
-  "id": "local-rag",
+  "id": "extension-local-rag",
   "configSchema": {
     "type": "object",
     "properties": {
