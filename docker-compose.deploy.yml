@@ -1,0 +1,20 @@
+services:
+  openclaw:
+    build: .
+    image: openclaw:latest
+    container_name: openclaw
+    restart: unless-stopped
+    # 覆盖 Dockerfile 中的 USER node，以确保有权限写入映射到宿主机 /root 下的目录
+    # 如果您希望以非 root 用户运行，请删除此行，并确保宿主机目录的所有者为 uid 1000
+    user: root
+    environment:
+      - HOME=/home/node
+      - NODE_ENV=production
+      # 如果需要设置 Token，取消注释并修改
+      # - OPENCLAW_GATEWAY_TOKEN=your-token-here
+    volumes:
+      # 将宿主机的 /root/openclaw/data 映射到容器内的配置目录
+      - /root/openclaw/data:/home/node/.openclaw
+    ports:
+      - "18789:18789"
+    command: ["node", "dist/index.js", "gateway", "--bind", "0.0.0.0", "--port", "18789"]
