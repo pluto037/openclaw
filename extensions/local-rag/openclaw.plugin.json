@@ -1,0 +1,36 @@
+{
+  "id": "local-rag",
+  "configSchema": {
+    "type": "object",
+    "properties": {
+      "dbPath": {
+        "type": "string",
+        "description": "Path to store vector database",
+        "default": "~/.openclaw/rag-data"
+      },
+      "embedding": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "type": "string",
+            "enum": ["ollama", "openai"],
+            "default": "ollama"
+          },
+          "model": {
+            "type": "string",
+            "default": "nomic-embed-text"
+          },
+          "baseUrl": {
+            "type": "string",
+            "description": "Base URL for Ollama (e.g. http://localhost:11434)",
+            "default": "http://localhost:11434"
+          },
+          "apiKey": {
+            "type": "string",
+            "description": "API Key for OpenAI"
+          }
+        }
+      }
+    }
+  }
+}

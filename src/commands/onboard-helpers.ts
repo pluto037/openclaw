@@ -5,6 +5,7 @@ import { inspect } from "node:util";
 
 import { cancel, isCancel } from "@clack/prompts";
 
+import { t } from "../i18n/index.js";
 import { DEFAULT_AGENT_WORKSPACE_DIR, ensureAgentWorkspace } from "../agents/workspace.js";
 import type { OpenClawConfig } from "../config/config.js";
 import { CONFIG_PATH } from "../config/config.js";
@@ -30,7 +31,7 @@ import type { NodeManagerChoice, OnboardMode, ResetScope } from "./onboard-types
 
 export function guardCancel<T>(value: T | symbol, runtime: RuntimeEnv): T {
   if (isCancel(value)) {
-    cancel(stylePromptTitle("Setup cancelled.") ?? "Setup cancelled.");
+    cancel(stylePromptTitle(t("onboarding.cancel")) ?? t("onboarding.cancel"));
     runtime.exit(0);
   }
   return value as T;
@@ -55,7 +56,7 @@ export function summarizeExistingConfig(config: OpenClawConfig): string {
   if (config.skills?.install?.nodeManager) {
     rows.push(shortenHomeInString(`skills.nodeManager: ${config.skills.install.nodeManager}`));
   }
-  return rows.length ? rows.join("\n") : "No key settings detected.";
+  return rows.length ? rows.join("\n") : t("onboarding.config.none");
 }
 
 export function randomToken(): string {
@@ -171,18 +172,13 @@ export function formatControlUiSshHint(params: {
   const tokenParam = params.token ? `?token=${encodeURIComponent(params.token)}` : "";
   const authedUrl = params.token ? `${localUrl}${tokenParam}` : undefined;
   const sshTarget = resolveSshTargetHint();
-  return [
-    "No GUI detected. Open from your computer:",
-    `ssh -N -L ${params.port}:127.0.0.1:${params.port} ${sshTarget}`,
-    "Then open:",
+  return t("onboarding.ssh.hint", {
+    sshCommand: `ssh -N -L ${params.port}:127.0.0.1:${params.port} ${sshTarget}`,
     localUrl,
-    authedUrl,
-    "Docs:",
-    "https://docs.openclaw.ai/gateway/remote",
-    "https://docs.openclaw.ai/web/control-ui",
-  ]
-    .filter(Boolean)
-    .join("\n");
+    authedUrl: authedUrl ?? "",
+    docsRemote: "https://docs.openclaw.ai/gateway/remote",
+    docsUi: "https://docs.openclaw.ai/web/control-ui",
+  });
 }
 
 function resolveSshTargetHint(): string {

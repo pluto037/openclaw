@@ -1,0 +1,39 @@
+{
+  "name": "@openclaw/extension-local-rag",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "openclaw": {
+    "extensions": [
+      "./index.ts"
+    ],
+    "install": {
+      "localPath": "extensions/local-rag"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist",
+    "lint": "oxlint src",
+    "format": "oxfmt src"
+  },
+  "dependencies": {
+    "@lancedb/lancedb": "^0.4.0",
+    "axios": "^1.7.9",
+    "glob": "^10.3.10",
+    "pdf-parse": "^1.1.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "openclaw": "workspace:*",
+    "@types/node": "^22.0.0",
+    "@types/pdf-parse": "^1.1.4",
+    "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "openclaw": "workspace:*"
+  }
+}

@@ -20,6 +20,39 @@ export const KIMI_CODE_MAX_TOKENS = 32768;
 export const KIMI_CODE_HEADERS = { "User-Agent": "KimiCLI/0.77" } as const;
 export const KIMI_CODE_COMPAT = { supportsDeveloperRole: false } as const;
 
+export const OPENROUTER_DEFAULT_MODEL_ID = "anthropic/claude-3-5-sonnet";
+export const OPENROUTER_DEFAULT_MODEL_REF = `openrouter/${OPENROUTER_DEFAULT_MODEL_ID}`;
+export const VERCEL_AI_GATEWAY_DEFAULT_MODEL_ID = "anthropic:claude-3-5-sonnet-latest";
+export const VERCEL_AI_GATEWAY_DEFAULT_MODEL_REF = `vercel-ai-gateway/${VERCEL_AI_GATEWAY_DEFAULT_MODEL_ID}`;
+export const XIAOMI_DEFAULT_MODEL_ID = "xiaomi-model";
+export const XIAOMI_DEFAULT_MODEL_REF = `xiaomi/${XIAOMI_DEFAULT_MODEL_ID}`;
+export const ZAI_DEFAULT_MODEL_ID = "glm-4-plus";
+export const ZAI_DEFAULT_MODEL_REF = `zai/${ZAI_DEFAULT_MODEL_ID}`;
+
+export const DEEPSEEK_BASE_URL = "https://api.deepseek.com/v1";
+export const DEEPSEEK_DEFAULT_MODEL_ID = "deepseek-chat";
+export const DEEPSEEK_DEFAULT_MODEL_REF = `deepseek/${DEEPSEEK_DEFAULT_MODEL_ID}`;
+export const DEEPSEEK_DEFAULT_CONTEXT_WINDOW = 65536;
+export const DEEPSEEK_DEFAULT_MAX_TOKENS = 8192;
+export const DEEPSEEK_DEFAULT_COST = {
+  input: 0.14,
+  output: 0.28,
+  cacheRead: 0.014,
+  cacheWrite: 0.14,
+};
+
+export function buildDeepSeekModelDefinition(): ModelDefinitionConfig {
+  return {
+    id: DEEPSEEK_DEFAULT_MODEL_ID,
+    name: "DeepSeek V3",
+    reasoning: false,
+    input: ["text"],
+    cost: DEEPSEEK_DEFAULT_COST,
+    contextWindow: DEEPSEEK_DEFAULT_CONTEXT_WINDOW,
+    maxTokens: DEEPSEEK_DEFAULT_MAX_TOKENS,
+  };
+}
+
 // Pricing: MiniMax doesn't publish public rates. Override in models.json for accurate costs.
 export const MINIMAX_API_COST = {
   input: 15,

@@ -20,6 +20,8 @@ export {
   applyXiaomiConfig,
   applyXiaomiProviderConfig,
   applyZaiConfig,
+  applyDeepSeekConfig,
+  applyDeepSeekProviderConfig,
 } from "./onboard-auth.config-core.js";
 export {
   applyMinimaxApiConfig,
@@ -42,6 +44,7 @@ export {
   setMinimaxApiKey,
   setMoonshotApiKey,
   setOpencodeZenApiKey,
+  setDeepSeekApiKey,
   setOpenrouterApiKey,
   setSyntheticApiKey,
   setVeniceApiKey,
@@ -52,12 +55,14 @@ export {
   VERCEL_AI_GATEWAY_DEFAULT_MODEL_REF,
   XIAOMI_DEFAULT_MODEL_REF,
   ZAI_DEFAULT_MODEL_REF,
+  DEEPSEEK_DEFAULT_MODEL_REF,
 } from "./onboard-auth.credentials.js";
 export {
   buildKimiCodeModelDefinition,
   buildMinimaxApiModelDefinition,
   buildMinimaxModelDefinition,
   buildMoonshotModelDefinition,
+  buildDeepSeekModelDefinition,
   DEFAULT_MINIMAX_BASE_URL,
   KIMI_CODE_BASE_URL,
   KIMI_CODE_MODEL_ID,

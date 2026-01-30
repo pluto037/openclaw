@@ -305,7 +305,7 @@ function renderScheduleFields(props: CronProps) {
   if (form.scheduleKind === "at") {
     return html`
       <label class="field" style="margin-top: 12px;">
-        <span>Run at</span>
+        <span>运行于</span>
         <input
           type="datetime-local"
           .value=${form.scheduleAt}
@@ -321,7 +321,7 @@ function renderScheduleFields(props: CronProps) {
     return html`
       <div class="form-grid" style="margin-top: 12px;">
         <label class="field">
-          <span>Every</span>
+          <span>每隔</span>
           <input
             .value=${form.everyAmount}
             @input=${(e: Event) =>
@@ -331,7 +331,7 @@ function renderScheduleFields(props: CronProps) {
           />
         </label>
         <label class="field">
-          <span>Unit</span>
+          <span>单位</span>
           <select
             .value=${form.everyUnit}
             @change=${(e: Event) =>
@@ -339,9 +339,9 @@ function renderScheduleFields(props: CronProps) {
                 everyUnit: (e.target as HTMLSelectElement).value as CronFormState["everyUnit"],
               })}
           >
-            <option value="minutes">Minutes</option>
-            <option value="hours">Hours</option>
-            <option value="days">Days</option>
+            <option value="minutes">分钟</option>
+            <option value="hours">小时</option>
+            <option value="days">天</option>
           </select>
         </label>
       </div>
@@ -350,7 +350,7 @@ function renderScheduleFields(props: CronProps) {
   return html`
     <div class="form-grid" style="margin-top: 12px;">
       <label class="field">
-        <span>Expression</span>
+        <span>表达式</span>
         <input
           .value=${form.cronExpr}
           @input=${(e: Event) =>
@@ -358,7 +358,7 @@ function renderScheduleFields(props: CronProps) {
         />
       </label>
       <label class="field">
-        <span>Timezone (optional)</span>
+        <span>时区 (可选)</span>
         <input
           .value=${form.cronTz}
           @input=${(e: Event) =>
@@ -396,7 +396,7 @@ function renderJob(job: CronJob, props: CronProps) {
               props.onToggle(job, !job.enabled);
             }}
           >
-            ${job.enabled ? "Disable" : "Enable"}
+            ${job.enabled ? "禁用" : "启用"}
           </button>
           <button
             class="btn"
@@ -406,7 +406,7 @@ function renderJob(job: CronJob, props: CronProps) {
               props.onRun(job);
             }}
           >
-            Run
+            运行
           </button>
           <button
             class="btn"
@@ -416,7 +416,7 @@ function renderJob(job: CronJob, props: CronProps) {
               props.onLoadRuns(job.id);
             }}
           >
-            Runs
+            历史
           </button>
           <button
             class="btn danger"
@@ -426,7 +426,7 @@ function renderJob(job: CronJob, props: CronProps) {
               props.onRemove(job);
             }}
           >
-            Remove
+            移除
           </button>
         </div>
       </div>

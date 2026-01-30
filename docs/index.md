@@ -203,6 +203,9 @@ Example:
   - [Discord](/channels/discord)
   - [Mattermost (plugin)](/channels/mattermost)
   - [iMessage](/channels/imessage)
+  - [Nostr](/channels/nostr) — Decentralized DMs via NIP-04 (plugin, installed separately).
+  - [Local RAG](/extensions/local-rag) — Local knowledge base (docs/pdf) via LanceDB + Ollama (plugin, installed separately).
+  - [Tlon](/channels/tlon) — Urbit-based messenger (plugin, installed separately).
   - [Groups](/concepts/groups)
   - [WhatsApp group messages](/concepts/group-messages)
   - [Media: images](/nodes/images)

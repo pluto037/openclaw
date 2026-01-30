@@ -105,11 +105,11 @@ export function renderLogs(props: LogsProps) {
       </div>
 
       ${props.file
-        ? html`<div class="muted" style="margin-top: 10px;">File: ${props.file}</div>`
+        ? html`<div class="muted" style="margin-top: 10px;">文件: ${props.file}</div>`
         : nothing}
       ${props.truncated
         ? html`<div class="callout" style="margin-top: 10px;">
-            Log output truncated; showing latest chunk.
+            日志输出已截断；仅显示最新部分。
           </div>`
         : nothing}
       ${props.error
@@ -118,7 +118,7 @@ export function renderLogs(props: LogsProps) {
 
       <div class="log-stream" style="margin-top: 12px;" @scroll=${props.onScroll}>
         ${filtered.length === 0
-          ? html`<div class="muted" style="padding: 12px;">No log entries.</div>`
+          ? html`<div class="muted" style="padding: 12px;">无日志条目。</div>`
           : filtered.map(
               (entry) => html`
                 <div class="log-row">

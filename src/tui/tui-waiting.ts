@@ -1,25 +1,28 @@
+import { t } from "../i18n/index.js";
+
 type MinimalTheme = {
   dim: (s: string) => string;
   bold: (s: string) => string;
   accentSoft: (s: string) => string;
 };
 
-export const defaultWaitingPhrases = [
-  "flibbertigibbeting",
-  "kerfuffling",
-  "dillydallying",
-  "twiddling thumbs",
-  "noodling",
-  "bamboozling",
-  "moseying",
-  "hobnobbing",
-  "pondering",
-  "conjuring",
+export const defaultWaitingKeys = [
+  "tui.waiting.flibbertigibbeting",
+  "tui.waiting.kerfuffling",
+  "tui.waiting.dillydallying",
+  "tui.waiting.twiddling_thumbs",
+  "tui.waiting.noodling",
+  "tui.waiting.bamboozling",
+  "tui.waiting.moseying",
+  "tui.waiting.hobnobbing",
+  "tui.waiting.pondering",
+  "tui.waiting.conjuring",
 ];
 
-export function pickWaitingPhrase(tick: number, phrases = defaultWaitingPhrases) {
-  const idx = Math.floor(tick / 10) % phrases.length;
-  return phrases[idx] ?? phrases[0] ?? "waiting";
+export function pickWaitingPhrase(tick: number, keys = defaultWaitingKeys) {
+  const idx = Math.floor(tick / 10) % keys.length;
+  const key = keys[idx] ?? keys[0] ?? "tui.waiting.default";
+  return t(key);
 }
 
 export function shimmerText(theme: MinimalTheme, text: string, tick: number) {

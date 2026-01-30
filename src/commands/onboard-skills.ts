@@ -1,3 +1,4 @@
+import { t } from "../i18n/index.js";
 import { installSkill } from "../agents/skills-install.js";
 import { buildWorkspaceSkillStatus } from "../agents/skills-status.js";
 import { formatCliCommand } from "../cli/command-format.js";
@@ -64,25 +65,19 @@ export async function setupSkills(
       `Missing requirements: ${missing.length}`,
       `Blocked by allowlist: ${blocked.length}`,
     ].join("\n"),
-    "Skills status",
+    t("skills.status.title"),
   );
 
   const shouldConfigure = await prompter.confirm({
-    message: "Configure skills now? (recommended)",
+    message: t("skills.setup.confirm"),
     initialValue: true,
   });
   if (!shouldConfigure) return cfg;
 
   if (needsBrewPrompt) {
-    await prompter.note(
-      [
-        "Many skill dependencies are shipped via Homebrew.",
-        "Without brew, you'll need to build from source or download releases manually.",
-      ].join("\n"),
-      "Homebrew recommended",
-    );
+    await prompter.note(t("skills.brew.content"), t("skills.brew.title"));
     const showBrewInstall = await prompter.confirm({
-      message: "Show Homebrew install command?",
+      message: t("skills.brew.install.confirm"),
       initialValue: true,
     });
     if (showBrewInstall) {
@@ -91,13 +86,13 @@ export async function setupSkills(
           "Run:",
           '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"',
         ].join("\n"),
-        "Homebrew install",
+        t("skills.brew.install.title"),
       );
     }
   }
 
   const nodeManager = (await prompter.select({
-    message: "Preferred node manager for skill installs",
+    message: t("skills.node_manager.select"),
     options: resolveNodeManagerOptions(),
   })) as "npm" | "pnpm" | "bun";
 
@@ -117,11 +112,11 @@ export async function setupSkills(
   );
   if (installable.length > 0) {
     const toInstall = await prompter.multiselect({
-      message: "Install missing skill dependencies",
+      message: t("skills.install.missing"),
       options: [
         {
           value: "__skip__",
-          label: "Skip for now",
+          label: t("skills.select.skip"),
           hint: "Continue without installing dependencies",
         },
         ...installable.map((skill) => ({
@@ -138,7 +133,7 @@ export async function setupSkills(
       if (!target || target.install.length === 0) continue;
       const installId = target.install[0]?.id;
       if (!installId) continue;
-      const spin = prompter.progress(`Installing ${name}…`);
+      const spin = prompter.progress(t("skills.install.progress", { name }));
       const result = await installSkill({
         workspaceDir,
         skillName: target.name,
@@ -146,11 +141,13 @@ export async function setupSkills(
         config: next,
       });
       if (result.ok) {
-        spin.stop(`Installed ${name}`);
+        spin.stop(t("skills.install.done", { name }));
       } else {
         const code = result.code == null ? "" : ` (exit ${result.code})`;
         const detail = summarizeInstallFailure(result.message);
-        spin.stop(`Install failed: ${name}${code}${detail ? ` — ${detail}` : ""}`);
+        spin.stop(
+          t("skills.install.failed", { name, detail: `${code}${detail ? ` — ${detail}` : ""}` }),
+        );
         if (result.stderr) runtime.log(result.stderr.trim());
         else if (result.stdout) runtime.log(result.stdout.trim());
         runtime.log(
@@ -164,14 +161,14 @@ export async function setupSkills(
   for (const skill of missing) {
     if (!skill.primaryEnv || skill.missing.env.length === 0) continue;
     const wantsKey = await prompter.confirm({
-      message: `Set ${skill.primaryEnv} for ${skill.name}?`,
+      message: t("skills.env.confirm", { env: skill.primaryEnv, skill: skill.name }),
       initialValue: false,
     });
     if (!wantsKey) continue;
     const apiKey = String(
       await prompter.text({
-        message: `Enter ${skill.primaryEnv}`,
-        validate: (value) => (value?.trim() ? undefined : "Required"),
+        message: t("skills.env.input", { env: skill.primaryEnv }),
+        validate: (value) => (value?.trim() ? undefined : t("skills.validation.required")),
       }),
     );
     next = upsertSkillEntry(next, skill.skillKey, { apiKey: apiKey.trim() });

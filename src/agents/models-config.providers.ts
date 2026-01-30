@@ -370,6 +370,47 @@ export function buildXiaomiProvider(): ProviderConfig {
   };
 }
 
+const DEEPSEEK_BASE_URL = "https://api.deepseek.com/v1";
+const DEEPSEEK_DEFAULT_CONTEXT_WINDOW = 65536;
+const DEEPSEEK_DEFAULT_MAX_TOKENS = 8192;
+const DEEPSEEK_DEFAULT_COST = {
+  input: 0.14,
+  output: 0.28,
+  cacheRead: 0.014,
+  cacheWrite: 0.14,
+};
+
+function buildDeepSeekProvider(): ProviderConfig {
+  return {
+    baseUrl: DEEPSEEK_BASE_URL,
+    api: "openai-completions",
+    models: [
+      {
+        id: "deepseek-chat",
+        name: "DeepSeek V3",
+        reasoning: false,
+        input: ["text"],
+        cost: DEEPSEEK_DEFAULT_COST,
+        contextWindow: DEEPSEEK_DEFAULT_CONTEXT_WINDOW,
+        maxTokens: DEEPSEEK_DEFAULT_MAX_TOKENS,
+      },
+      {
+        id: "deepseek-reasoner",
+        name: "DeepSeek R1",
+        reasoning: true,
+        input: ["text"],
+        cost: {
+          ...DEEPSEEK_DEFAULT_COST,
+          input: 0.55,
+          output: 2.19,
+        },
+        contextWindow: DEEPSEEK_DEFAULT_CONTEXT_WINDOW,
+        maxTokens: DEEPSEEK_DEFAULT_MAX_TOKENS,
+      },
+    ],
+  };
+}
+
 async function buildVeniceProvider(): Promise<ProviderConfig> {
   const models = await discoverVeniceModels();
   return {
@@ -444,6 +485,13 @@ export async function resolveImplicitProviders(params: {
     resolveApiKeyFromProfiles({ provider: "xiaomi", store: authStore });
   if (xiaomiKey) {
     providers.xiaomi = { ...buildXiaomiProvider(), apiKey: xiaomiKey };
+  }
+
+  const deepseekKey =
+    resolveEnvApiKeyVarName("deepseek") ??
+    resolveApiKeyFromProfiles({ provider: "deepseek", store: authStore });
+  if (deepseekKey) {
+    providers.deepseek = { ...buildDeepSeekProvider(), apiKey: deepseekKey };
   }
 
   // Ollama provider - only add if explicitly configured
